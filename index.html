@@ -1,3 +1,23 @@
+<script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-firestore.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDRtctTlnfAGApOTvMjYjMEvDeWuCqjsrc",
+    authDomain: "ideatoaction1-a19ec.firebaseapp.com",
+    projectId: "ideatoaction1-a19ec",
+    storageBucket: "ideatoaction1-a19ec.appspot.com",
+    messagingSenderId: "your-messaging-sender-id",
+    appId: "your-app-id"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,3 +29,5 @@
     <h1>Welcome to My Web App!</h1>
 </body>
 </html>
+
+
