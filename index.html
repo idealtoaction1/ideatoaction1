@@ -30,4 +30,63 @@
 </body>
 </html>
 
+<h3>Sign Up</h3>
+<input type="email" id="signup-email" placeholder="Email">
+<input type="password" id="signup-password" placeholder="Password">
+<button onclick="signUp()">Sign Up</button>
 
+<h3>Login</h3>
+<input type="email" id="login-email" placeholder="Email">
+<input type="password" id="login-password" placeholder="Password">
+<button onclick="login()">Login</button>
+
+function signUp() {
+    const email = document.getElementById("signup-email").value;
+    const password = document.getElementById("signup-password").value;
+    auth.createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        console.log("User signed up: ", userCredential.user);
+      })
+      .catch((error) => {
+        console.error("Error signing up: ", error);
+      });
+  }
+  
+  function login() {
+    const email = document.getElementById("login-email").value;
+    const password = document.getElementById("login-password").value;
+    auth.signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        console.log("User logged in: ", userCredential.user);
+      })
+      .catch((error) => {
+        console.error("Error logging in: ", error);
+      });
+  }
+  
+  <h3>Enter Mobile Number and Remark</h3>
+  <input type="text" id="mobile-number" placeholder="Mobile Number">
+  <textarea id="remark" maxlength="2000" placeholder="Enter your remark"></textarea>
+  <button onclick="saveData()">Save Data</button>
+
+  function saveData() {
+    const user = auth.currentUser;
+    const mobileNumber = document.getElementById("mobile-number").value;
+    const remark = document.getElementById("remark").value;
+    
+    if (user) {
+      db.collection("users").doc(user.uid).set({
+        mobileNumber: mobileNumber,
+        remark: remark
+      })
+      .then(() => {
+        console.log("Data saved!");
+      })
+      .catch((error) => {
+        console.error("Error saving data: ", error);
+      });
+    } else {
+      console.error("No user logged in");
+    }
+  }
+  
