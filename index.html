@@ -27,10 +27,8 @@
 </head>
 <body>
     <h1>Welcome to My Web App!</h1>
-</body>
-</html>
 
-<h3>Sign Up</h3>
+    <h3>Sign Up</h3>
 <input type="email" id="signup-email" placeholder="Email">
 <input type="password" id="signup-password" placeholder="Password">
 <button onclick="signUp()">Sign Up</button>
@@ -38,7 +36,15 @@
 <h3>Login</h3>
 <input type="email" id="login-email" placeholder="Email">
 <input type="password" id="login-password" placeholder="Password">
-<button onclick="login()">Login</button>
+<button onclick="login()">Login</button>   
+
+<h3>Enter Mobile Number and Remark</h3>
+<input type="text" id="mobile-number" placeholder="Mobile Number">
+<textarea id="remark" maxlength="2000" placeholder="Enter your remark"></textarea>
+<button onclick="saveData()">Save Data</button>
+
+</body>
+</html>
 
 function signUp() {
     const email = document.getElementById("signup-email").value;
@@ -63,11 +69,6 @@ function signUp() {
         console.error("Error logging in: ", error);
       });
   }
-  
-  <h3>Enter Mobile Number and Remark</h3>
-  <input type="text" id="mobile-number" placeholder="Mobile Number">
-  <textarea id="remark" maxlength="2000" placeholder="Enter your remark"></textarea>
-  <button onclick="saveData()">Save Data</button>
 
   function saveData() {
     const user = auth.currentUser;
