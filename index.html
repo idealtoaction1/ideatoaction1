@@ -1,93 +1,96 @@
-<script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-firestore.js"></script>
-
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyDRtctTlnfAGApOTvMjYjMEvDeWuCqjsrc",
-    authDomain: "ideatoaction1-a19ec.firebaseapp.com",
-    projectId: "ideatoaction1-a19ec",
-    storageBucket: "ideatoaction1-a19ec.appspot.com",
-    messagingSenderId: "your-messaging-sender-id",
-    appId: "your-app-id"
-  };
-
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const db = firebase.firestore();
-</script>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Web App</title>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-firestore.js"></script>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDRtctTlnfAGApOTvMjYjMEvDeWuCqjsrc",
+            authDomain: "ideatoaction1-a19ec.firebaseapp.com",
+            projectId: "ideatoaction1-a19ec",
+            storageBucket: "ideatoaction1-a19ec.appspot.com",
+            messagingSenderId: "your-messaging-sender-id",
+            appId: "your-app-id"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Sign Up function
+        function signUp() {
+            const email = document.getElementById("signup-email").value;
+            const password = document.getElementById("signup-password").value;
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    console.log("User signed up: ", userCredential.user);
+                })
+                .catch((error) => {
+                    console.error("Error signing up: ", error);
+                });
+        }
+
+        // Login function
+        function login() {
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    console.log("User logged in: ", userCredential.user);
+                })
+                .catch((error) => {
+                    console.error("Error logging in: ", error);
+                });
+        }
+
+        // Save Data function
+        function saveData() {
+            const user = auth.currentUser;
+            const mobileNumber = document.getElementById("mobile-number").value;
+            const remark = document.getElementById("remark").value;
+
+            if (user) {
+                db.collection("users").doc(user.uid).set({
+                    mobileNumber: mobileNumber,
+                    remark: remark
+                })
+                .then(() => {
+                    console.log("Data saved!");
+                })
+                .catch((error) => {
+                    console.error("Error saving data: ", error);
+                });
+            } else {
+                console.error("No user logged in");
+            }
+        }
+    </script>
 </head>
 <body>
     <h1>Welcome to My Web App!</h1>
 
     <h3>Sign Up</h3>
-<input type="email" id="signup-email" placeholder="Email">
-<input type="password" id="signup-password" placeholder="Password">
-<button onclick="signUp()">Sign Up</button>
+    <input type="email" id="signup-email" placeholder="Email">
+    <input type="password" id="signup-password" placeholder="Password">
+    <button onclick="signUp()">Sign Up</button>
 
-<h3>Login</h3>
-<input type="email" id="login-email" placeholder="Email">
-<input type="password" id="login-password" placeholder="Password">
-<button onclick="login()">Login</button>   
+    <h3>Login</h3>
+    <input type="email" id="login-email" placeholder="Email">
+    <input type="password" id="login-password" placeholder="Password">
+    <button onclick="login()">Login</button>
 
-<h3>Enter Mobile Number and Remark</h3>
-<input type="text" id="mobile-number" placeholder="Mobile Number">
-<textarea id="remark" maxlength="2000" placeholder="Enter your remark"></textarea>
-<button onclick="saveData()">Save Data</button>
-
+    <h3>Enter Mobile Number and Remark</h3>
+    <input type="text" id="mobile-number" placeholder="Mobile Number">
+    <textarea id="remark" maxlength="2000" placeholder="Enter your remark"></textarea>
+    <button onclick="saveData()">Save Data</button>
 </body>
 </html>
-
-function signUp() {
-    const email = document.getElementById("signup-email").value;
-    const password = document.getElementById("signup-password").value;
-    auth.createUserWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        console.log("User signed up: ", userCredential.user);
-      })
-      .catch((error) => {
-        console.error("Error signing up: ", error);
-      });
-  }
-  
-  function login() {
-    const email = document.getElementById("login-email").value;
-    const password = document.getElementById("login-password").value;
-    auth.signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        console.log("User logged in: ", userCredential.user);
-      })
-      .catch((error) => {
-        console.error("Error logging in: ", error);
-      });
-  }
-
-  function saveData() {
-    const user = auth.currentUser;
-    const mobileNumber = document.getElementById("mobile-number").value;
-    const remark = document.getElementById("remark").value;
-    
-    if (user) {
-      db.collection("users").doc(user.uid).set({
-        mobileNumber: mobileNumber,
-        remark: remark
-      })
-      .then(() => {
-        console.log("Data saved!");
-      })
-      .catch((error) => {
-        console.error("Error saving data: ", error);
-      });
-    } else {
-      console.error("No user logged in");
-    }
-  }
-  
